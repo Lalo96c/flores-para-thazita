@@ -13,18 +13,32 @@ flowers.forEach(([x,height,lean,size], i) => {
   garden.append(flower);
 });
 let blooming = false;
-button.addEventListener('click', () => {
+function bloom() {
   if (blooming) return;
   blooming = true;
   button.disabled = true;
+  garden.classList.add('resetting');
   garden.classList.remove('blooming');
+  void garden.offsetWidth;
   statusText.textContent = 'Las cosas más bonitas crecen con amor…';
-  requestAnimationFrame(() => requestAnimationFrame(() => garden.classList.add('blooming')));
+  requestAnimationFrame(() => {
+    garden.classList.remove('resetting');
+    garden.classList.add('blooming');
+  });
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   setTimeout(() => {
     statusText.textContent = 'Thazita, tú haces más bonitos mis días. Te quiero ♡';
     button.innerHTML = 'Volver a florecer <span aria-hidden="true">✳</span>';
     button.disabled = false;
     blooming = false;
-  }, reduced ? 0 : 4700);
-});
+  }, reduced ? 0 : 6200);
+}
+button.addEventListener('click', bloom);
+// Wait until the garden is visible, including on narrow phone screens.
+const observer = new IntersectionObserver(entries => {
+  if (entries.some(entry => entry.isIntersecting)) {
+    observer.disconnect();
+    bloom();
+  }
+}, { threshold: 0.25 });
+observer.observe(garden);
