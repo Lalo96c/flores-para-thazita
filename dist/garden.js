@@ -27,7 +27,7 @@ function bloom() {
   });
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   setTimeout(() => {
-    statusText.textContent = 'Thazita, tú haces más bonitos mis días. Te quiero ♡';
+    statusText.textContent = 'Thazita, tú haces más bonitos mis días. Te amoooo ♡';
     button.innerHTML = 'Volver a florecer <span aria-hidden="true">✳</span>';
     button.disabled = false;
     blooming = false;
